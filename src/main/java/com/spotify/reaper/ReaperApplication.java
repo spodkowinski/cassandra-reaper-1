@@ -187,7 +187,7 @@ public class ReaperApplication extends Application<ReaperApplicationConfiguratio
     IStorage storage;
     if ("memory".equalsIgnoreCase(config.getStorageType())) {
       storage = new MemoryStorage();
-    }else if ("cassandra".equalsIgnoreCase(config.getStorageType())) {
+    } else if ("cassandra".equalsIgnoreCase(config.getStorageType())) {
       storage = new CassandraStorage(config, environment);
     } else if ("database".equalsIgnoreCase(config.getStorageType())) {
       // create DBI instance
@@ -200,7 +200,7 @@ public class ReaperApplication extends Application<ReaperApplicationConfiguratio
         throw new ReaperException(ex);
       }
       
-      // instanciate store
+      // instantiate store
       storage = new PostgresStorage(jdbi);
       
       // init H2 database upon first run
@@ -211,12 +211,14 @@ public class ReaperApplication extends Application<ReaperApplicationConfiguratio
           LOG.info("H2 database does not exist yet... Initializing H2 database: " + config.getDataSourceFactory().getUrl());
           initH2Database(jdbi);
         }
+      } else {
+        assert storage.isStorageConnected() : "Failed to connect storage";
       }
+
     } else {
       LOG.error("invalid storageType: {}", config.getStorageType());
       throw new ReaperException("invalid storage type: " + config.getStorageType());
     }
-    assert storage.isStorageConnected() : "Failed to connect storage";
     return storage;
   }
 
