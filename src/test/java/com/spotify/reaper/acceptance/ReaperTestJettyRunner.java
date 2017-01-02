@@ -39,7 +39,7 @@ public class ReaperTestJettyRunner {
 
   public static void setup(AppContext testContext) throws Exception {
     if (runnerInstance == null) {
-      String testConfigPath = Resources.getResource("cassandra-reaper-at.yaml").getPath();
+      String testConfigPath = Resources.getResource("cassandra-reaper-at-mem.yaml").getPath();
       LOG.info("initializing ReaperTestJettyRunner with config in path: " + testConfigPath);
       runnerInstance = new ReaperTestJettyRunner(testConfigPath, testContext);
       runnerInstance.start();
