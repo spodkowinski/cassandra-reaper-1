@@ -208,7 +208,7 @@ public class ReaperApplication extends Application<ReaperApplicationConfiguratio
         try {
           storage.getClusters();
         } catch(UnableToCreateStatementException e) {
-          LOG.info("H2 database does not exist yet... Initializing H2 database: " + config.getDataSourceFactory().getUrl(), e);
+          LOG.info("H2 database does not exist yet... Initializing H2 database: " + config.getDataSourceFactory().getUrl());
           initH2Database(jdbi);
         }
       }
