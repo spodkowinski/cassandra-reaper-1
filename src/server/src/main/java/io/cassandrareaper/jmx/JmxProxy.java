@@ -21,14 +21,19 @@ import io.cassandrareaper.core.Snapshot;
 import io.cassandrareaper.service.RingRange;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 
+import javax.annotation.Nullable;
 import javax.management.JMException;
+import javax.management.ListenerNotFoundException;
+import javax.management.NotificationFilter;
 import javax.management.NotificationListener;
 import javax.validation.constraints.NotNull;
 
@@ -152,4 +157,21 @@ public interface JmxProxy extends NotificationListener {
   Map<String, List<JmxStat>> collectDroppedMessages() throws JMException, IOException;
 
   Map<String, List<JmxStat>> collectLatencyMetrics() throws JMException, IOException;
+
+  void addConnectionNotificationListener(NotificationListener listener);
+
+  void removeConnectionNotificationListener(NotificationListener listener) throws ListenerNotFoundException;
+
+  void addNotificationListener(NotificationListener listener, @Nullable NotificationFilter filter)
+          throws IOException, JMException;
+
+  void removeNotificationListener(NotificationListener listener) throws IOException, JMException;
+
+  void enableEventPersistence(String eventClazz);
+
+  void disableEventPersistence(String eventClazz);
+
+  Map<String, Comparable> getLastEventIdsIfModified(long lastUpdate);
+
+  SortedMap<Long, Map<String, Serializable>> readEvents(String eventClazz, Long lastKey, int limit);
 }

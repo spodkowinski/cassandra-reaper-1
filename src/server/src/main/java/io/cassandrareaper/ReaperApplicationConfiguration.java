@@ -27,6 +27,7 @@ import javax.ws.rs.DefaultValue;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
+import io.dropwizard.client.HttpClientConfiguration;
 import io.dropwizard.db.DataSourceFactory;
 import org.apache.cassandra.repair.RepairParallelism;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -133,6 +134,9 @@ public final class ReaperApplicationConfiguration extends Configuration {
   private DataSourceFactory database;
 
   private DataSourceFactory relationalDb = new DataSourceFactory();
+
+  @JsonProperty
+  private HttpClientConfiguration httpClient = new HttpClientConfiguration();
 
   public int getSegmentCount() {
     return segmentCount == null ? 0 : segmentCount;
@@ -380,6 +384,14 @@ public final class ReaperApplicationConfiguration extends Configuration {
   @JsonProperty("numberOfRunsToKeepPerUnit")
   public void setNumberOfRunsToKeepPerUnit(Integer numberOfRunsToKeepPerUnit) {
     this.numberOfRunsToKeepPerUnit = numberOfRunsToKeepPerUnit;
+  }
+
+  public HttpClientConfiguration getHttpClientConfiguration() {
+    return httpClient;
+  }
+
+  public void setHttpClientConfiguration(HttpClientConfiguration httpClient) {
+    this.httpClient = httpClient;
   }
 
   public static final class JmxCredentials {

@@ -15,6 +15,7 @@
 package io.cassandrareaper;
 
 import io.cassandrareaper.jmx.JmxConnectionFactory;
+import io.cassandrareaper.service.DiagEventSubscriptionService;
 import io.cassandrareaper.service.MetricsGrabber;
 import io.cassandrareaper.service.PurgeManager;
 import io.cassandrareaper.service.RepairManager;
@@ -27,6 +28,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.codahale.metrics.MetricRegistry;
+import org.apache.http.client.HttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +52,8 @@ public final class AppContext {
   public SnapshotManager snapshotManager;
   public PurgeManager purgeManager;
   public MetricsGrabber metricsGrabber;
+  public DiagEventSubscriptionService diagEventService;
+  public HttpClient httpClient;
 
   private static String initialiseInstanceAddress() {
     String reaperInstanceAddress;
