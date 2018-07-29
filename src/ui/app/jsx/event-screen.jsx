@@ -134,6 +134,12 @@ const eventScreen = React.createClass({
             </div>
 
             <div className="row">
+                <div className="col-lg-12 text-right">
+                  <small className="text-warning">Cassandra 4.0 or later required for diagnostic events support!</small>
+                </div>
+            </div>
+
+            <div className="row">
               <div className="col-lg-12">
                 <DiagEventsSubscriptionForm
                   clusterStatusResult={this.props.clusterStatusResult}

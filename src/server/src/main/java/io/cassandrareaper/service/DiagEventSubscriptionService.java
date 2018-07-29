@@ -40,8 +40,10 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.management.InstanceNotFoundException;
 import javax.management.JMException;
 import javax.management.Notification;
+import javax.management.ReflectionException;
 import javax.management.remote.JMXConnectionNotification;
 import javax.ws.rs.core.MediaType;
 
@@ -283,6 +285,9 @@ public class DiagEventSubscriptionService {
       } catch (RuntimeException e) {
         if (e.getCause() instanceof ClassNotFoundException) {
           LOG.warn("Event not supported on server: {}", event);
+        } else if (e.getCause() instanceof ReflectionException) {
+          LOG.warn(String.format("Failed to manage events via JMX for %s: "
+              + "incompatible Cassandra version (>=4.0 required)", node));
         } else {
           LOG.error(String.format("Failed to enable/disable event %s via JMX for %s", event, node), e);
         }
@@ -328,6 +333,9 @@ public class DiagEventSubscriptionService {
       jmxProxy.addConnectionNotificationListener(listener);
       jmxProxy.addNotificationListener(listener, null);
 
+    } catch (InstanceNotFoundException e) {
+      LOG.error(String.format("Failed to subscribe to JMX notifications on %s: "
+          + "incompatible Cassandra version (>=4.0 required)", node), e);
     } catch (IOException | JMException | RuntimeException e) {
       LOG.error(String.format("Failed to subscribe to JMX notifications on %s", node), e);
     }
@@ -345,7 +353,6 @@ public class DiagEventSubscriptionService {
 
       jmxProxy.removeConnectionNotificationListener(listener);
       jmxProxy.removeNotificationListener(listener);
-
     } catch (IOException | JMException | RuntimeException e) {
       LOG.error(String.format("Failed to unsubscribe to JMX notifications on %s", node), e);
     }
