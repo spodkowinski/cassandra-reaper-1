@@ -176,6 +176,9 @@ const subscriptionForm = React.createClass({
                     <option value="org.apache.cassandra.hints.HintEvent">HintEvent</option>
                     <option value="org.apache.cassandra.hints.HintsServiceEvent">HintsServiceEvent</option>
                     <option value="org.apache.cassandra.service.PendingRangeCalculatorServiceEvent">PendingRangeCalculatorServiceEvent</option>
+                    <option value="org.apache.cassandra.schema.SchemaAnnouncementEvent">SchemaAnnouncementEvent</option>
+                    <option value="org.apache.cassandra.schema.SchemaEvent">SchemaEvent</option>
+                    <option value="org.apache.cassandra.schema.SchemaMigrationEvent">SchemaMigrationEvent</option>
                     <option value="org.apache.cassandra.dht.tokenallocator.TokenAllocatorEvent">TokenAllocatorEvent</option>
                     <option value="org.apache.cassandra.locator.TokenMetadataEvent">TokenMetadataEvent</option>
                   </select>
